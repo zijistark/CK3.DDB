@@ -807,6 +807,7 @@ convert_at_war_interaction = {
 	
 	ai_potential = {
 		ai_zeal < 100
+		NOT = { has_trait = crusader_king }
 		faith = {
 			OR = {
 				has_doctrine = unreformed_faith_doctrine
@@ -840,7 +841,7 @@ convert_at_war_interaction = {
 				any_character_war = {
 					primary_attacker = scope:recipient
 					primary_defender = scope:actor
-					attacker_war_score >= 30
+					attacker_war_score >= 50
 				}
 			}
 			add = 5
@@ -850,7 +851,7 @@ convert_at_war_interaction = {
 				any_character_war = {
 					primary_attacker = scope:recipient
 					primary_defender = scope:actor
-					attacker_war_score >= 50
+					attacker_war_score >= 70
 				}
 			}
 			add = 10
@@ -860,17 +861,17 @@ convert_at_war_interaction = {
 				any_character_war = {
 					primary_attacker = scope:recipient
 					primary_defender = scope:actor
-					attacker_war_score >= 80
+					attacker_war_score >= 90
 				}
 			}
 			add = 15
 		}
 		modifier = {
 			scope:actor.faith = {
-				fervor < 50
+				fervor <= 25
 			}
 			scope:recipient.faith = {
-				fervor >= 50
+				fervor >= 70
 			}
 			add = 5
 		}
@@ -879,7 +880,7 @@ convert_at_war_interaction = {
 				fervor <= 25
 			}
 			scope:recipient.faith = {
-				fervor >= 50
+				fervor >= 80
 			}
 			add = 5
 		}
@@ -888,13 +889,19 @@ convert_at_war_interaction = {
 				fervor <= 25
 			}
 			scope:recipient.faith = {
-				fervor >= 75
+				fervor >= 90
 			}
 			add = 5
 		}
 		modifier = {
 			scope:actor.faith = {
-				fervor >= 75
+				fervor >= 70
+			}
+			add = -15
+		}
+		modifier = {
+			scope:actor.faith = {
+				fervor >= 60
 			}
 			add = -10
 		}
@@ -906,21 +913,39 @@ convert_at_war_interaction = {
 		}
 		modifier = {
 			scope:recipient.faith = {
-				fervor <= 25
+				fervor <= 60
 			}
 			add = -10
 		}
 		modifier = {
 			scope:recipient.faith = {
-				fervor <= 15
+				fervor <= 50
 			}
 			add = -20
 		}
 		modifier = {
 			scope:recipient.faith = {
-				fervor <= 10
+				fervor <= 40
 			}
 			add = -30
+		}
+		modifier = {
+			scope:recipient.faith = {
+				fervor <= 30
+			}
+			add = -40
+		}
+		modifier = {
+			factor = 0.5
+			scope:actor.primary_title.tier = tier_duchy
+		}
+		modifier = {
+			factor = 0.2
+			scope:actor.primary_title.tier = tier_kingdom
+		}
+		modifier = {
+			factor = 0.1
+			scope:actor.primary_title.tier = tier_empire
 		}
 		modifier = {
 			scope:recipient.faith.fervor < scope:actor.faith.fervor

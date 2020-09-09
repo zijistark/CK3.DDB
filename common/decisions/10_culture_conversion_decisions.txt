@@ -46,19 +46,11 @@
 	}
 
 	ai_will_do = {
-		base = 3
+		base = 1
 		
 		modifier = { # If your liege is the same culture as your capital, better get on with it! This should combat scattered wrong-culture Counts and such.
-			add = 77
+			add = 67
 			capital_province.culture = liege.culture
-		}
-		
-		modifier = { # Motivate vassals to assimilate if they are different culture from their liege. If they can't curry their liege's favor, better get the peasants on your side at least...
-			add = 27
-			NOR = {
-				culture = capital_province.culture
-				culture = liege.culture
-			}
 		}
 
 		# Reduced chance for every vassal who has your old culture
@@ -83,41 +75,180 @@
 				}
 			}
 		}
-		
-		modifier = { # If you're the same culture as your liege, and your Capital is in a Duchy with your culture in it, never convert
-			factor = 0
-			exists = liege
-			culture = liege.culture
-			capital_province.duchy = {
+
+		# Title tiers...
+		modifier = {
+			factor = 0.67
+			is_independent_ruler = yes
+			primary_title.tier >= tier_duchy
+		}
+
+		modifier = {
+			factor = 0.75
+			primary_title.tier = tier_duchy
+		}
+
+		modifier = {
+			factor = 0.25
+			primary_title.tier = tier_kingdom
+		}
+
+		modifier = {
+			factor = 0.1
+			primary_title.tier = tier_empire
+		}
+
+		# If you're not the same faith as your capital either, then rarely convert to its culture [General]
+		modifier = {
+			factor = 0.2
+			NOT = { capital_county.faith = root.faith }
+		}
+
+		# If you're not the same religion as your capital either, then very rarely convert to its culture [General]
+		modifier = {
+			factor = 0.2
+			NOT = { capital_county.religion = root.religion }
+		}
+
+		# If your Capital is in a Duchy with your culture in it, more rarely convert [General]
+		modifier = {
+			factor = 0.5
+			capital_county.duchy = {
 				any_in_de_jure_hierarchy = {
 					tier = tier_county
-					any_county_province = {
-						culture = root.culture
+					culture = root.culture
+				}
+			}
+		}
+
+		# If your Capital is in a Duchy with your culture as the majority culture (or tied for majority),
+		# much more rarely convert [General]
+		modifier = {
+			factor = 0.3
+			capital_county.duchy = {
+				any_in_de_jure_hierarchy = {
+					filter = {
+						tier = tier_county
 					}
+					percent >= 0.5
+					culture = root.culture
 				}
 			}
 		}
 		
-		modifier = { # If your capital borders a province with the correct culture, do not convert
+		# If your capital borders a province with the correct culture, very rarely convert [General]
+		modifier = {
+			factor = 0.15
+			capital_county = {
+				any_neighboring_county = {
+					culture = root.culture
+				}
+			}
+		}
+		
+		# A poor stopgap for Crusader States -- only lasts one generation and isn't tied to holding the title,
+		# so I need to appropriately save the Crusader faith to the title and test for any_liege_or_above
+		# holding it with that faith scope still saved and equal to the holder's faith. OR, a character-based
+		# approach with variable inheritance. [FIXME]
+		modifier = {
+			factor = 0
+			OR = {
+				AND = {
+					is_independent_ruler = yes
+					has_trait = crusader_king
+				}
+				top_liege = {
+					has_trait = crusader_king
+					faith = root.faith
+				}
+			}
+		}
+
+		# If you're not the same faith as your capital either, then never convert to its culture [Same culture group and
+		# faith as liege]
+		modifier = {
 			factor = 0
 			exists = liege
 			culture = liege.culture
-			capital_province.county = {
-				any_neighboring_county = {
-					any_county_province = {
-						culture = root.culture
+			faith = liege.faith
+			NOT = { capital_county.faith = root.faith }
+		}
+
+		# If you're not the same religion as your capital either, then never convert to its culture [Same culture and
+		# religion as liege]
+		modifier = {
+			factor = 0
+			exists = liege
+			culture = liege.culture
+			religion = liege.religion
+			NOT = { capital_county.religion = root.religion }
+		}
+
+		# If you're the same culture as your liege, and your Capital is in a Duchy with your culture as the
+		# majority culture (or tied for majority), never convert [Same culture as liege]
+		modifier = {
+			factor = 0
+			exists = liege
+			culture = liege.culture
+			capital_county.duchy = {
+				any_in_de_jure_hierarchy = {
+					filter = {
+						tier = tier_county
 					}
+					percent >= 0.5
+					culture = root.culture
+				}
+			}
+		}
+
+		# If you're the same culture as your liege, and your Capital is in a Duchy with your culture in it,
+		# never convert [Same culture as liege]
+		modifier = {
+			factor = 0
+			exists = liege
+			culture = liege.culture
+			capital_county.duchy = {
+				any_in_de_jure_hierarchy = {
+					tier = tier_county
+					culture = root.culture
 				}
 			}
 		}
 		
-		modifier = { # If your liege is your parent, do not convert
+		# If your capital borders a province with the correct culture, do not convert [Same culture as liege]
+		modifier = {
+			factor = 0
+			exists = liege
+			culture = liege.culture
+			capital_county = {
+				any_neighboring_county = {
+					culture = root.culture
+				}
+			}
+		}
+		
+		# If your liege is your parent OR grandparent, do not convert
+		modifier = {
 			factor = 0
 			exists = liege
 			culture = liege.culture
 			OR = {
 				liege = root.mother
 				liege = root.father
+				AND = {
+					exists = root.mother
+					OR = {
+						liege = root.mother.mother
+						liege = root.mother.father
+					}
+				}
+				AND = {
+					exists = root.father
+					OR = {
+						liege = root.father.mother
+						liege = root.father.father
+					}
+				}
 			}
 		}
 		
