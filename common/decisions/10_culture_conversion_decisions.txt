@@ -98,6 +98,12 @@
 			primary_title.tier = tier_empire
 		}
 
+		# Penalty for the target culture being in a different culture group
+		modifier = {
+			factor = 0.5
+			NOT = { capital_county.culture_group = root.culture_group }
+		}
+
 		# If you're not the same faith as your capital either, then rarely convert to its culture [General]
 		modifier = {
 			factor = 0.2
@@ -164,7 +170,7 @@
 			}
 		}
 
-		# If you're not the same faith as your capital either, then never convert to its culture [Same culture group and
+		# If you're not the same faith as your capital either, then never convert to its culture [Same culture and
 		# faith as liege]
 		modifier = {
 			factor = 0
@@ -184,25 +190,7 @@
 			NOT = { capital_county.religion = root.religion }
 		}
 
-		# If you're the same culture as your liege, and your Capital is in a Duchy with your culture as the
-		# majority culture (or tied for majority), never convert [Same culture as liege]
-		modifier = {
-			factor = 0
-			exists = liege
-			culture = liege.culture
-			capital_county.duchy = {
-				any_in_de_jure_hierarchy = {
-					filter = {
-						tier = tier_county
-					}
-					percent >= 0.5
-					culture = root.culture
-				}
-			}
-		}
-
-		# If you're the same culture as your liege, and your Capital is in a Duchy with your culture in it,
-		# never convert [Same culture as liege]
+		# If your Capital is in a Duchy with your culture in it, never convert [Same culture as liege]
 		modifier = {
 			factor = 0
 			exists = liege
