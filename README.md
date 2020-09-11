@@ -2,7 +2,9 @@
 
 DDB is a mod for [Crusader Kings III](https://www.crusaderkings.com/) focusing primarily upon, as the tentative name goes, the issues of gameplay depth, difficulty, and balance. For now, it's my personal, unpublished mod intended for the campaigns of my friends and myself. I wanted to start sanitizing some of the worst issues with vanilla CK3, so here we are.
 
-Again, note that this is a pre-release, WIP mod, and it certainly does not tackle all of the 3 issues in its name yet. However, the [GitHub Releases](https://github.com/zijistark/CK3.DDB/releases) are considered stable, so feel free to download the latest of the [GitHub Releases](https://github.com/zijistark/CK3.DDB/releases), extract the downloaded archive into your mod folder, and play with it.
+Again, note that this is a pre-release, WIP mod, and it certainly does not tackle all of the 3 issues in its name yet. However, the [GitHub Releases](https://github.com/zijistark/CK3.DDB/releases) are considered stable, so feel free to download the latest of the [GitHub Releases](https://github.com/zijistark/CK3.DDB/releases), extract the downloaded archive into your mod folder[1], and play with it.
+
+[1] Note that GitHub adds an additional top-level folder inside the ZIP called something like `CK3.DDB-0.1.0/` or `CK3.DDB-master/`, depending upon how you downloaded it. When using your unzipping program, unzip only the _contents_ of that folder directly into your mod folder: you want `DDB.mod` and the `DDB/` folder to be directly inside your mod folder.
 
 A cumulative changelog for released versions can be found in the [DDB_CHANGELOG](https://github.com/zijistark/CK3.DDB/blob/master/DDB/DDB_CHANGELOG.md) file.
 
