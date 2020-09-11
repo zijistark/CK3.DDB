@@ -16,8 +16,8 @@ on_game_start_DDB = {
 		# Prevent spurious errors in error.log...
 		# These variables are currently stored but never checked directly:
 		title:k_jerusalem = {
-			set_variable = { which = ghw_parent_title_DDB value = 0 }
-			remove_variable = ghw_parent_title_DDB
+			#set_variable = { name = ghw_parent_title_DDB value = 0 }
+			#remove_variable = ghw_parent_title_DDB
 			if = {
 				limit = {
 					OR = {

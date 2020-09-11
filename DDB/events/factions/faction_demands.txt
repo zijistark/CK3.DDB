@@ -535,9 +535,9 @@ faction_demand.1001 = {
 			}
 
 			compare_modifier = { # Weaker factions increase the chance of an AI ruler refusing; at 80% army strength (minimum), this will be -20; at 200% army strength, this will max out at +50.
-				value = {			
+				value = {
 					value = scope:faction.faction_power
-					subtract = 100
+					subtract = 150
 				}
 				max = 50
 			}
