@@ -2975,7 +2975,10 @@ undirected_great_holy_war = {
 				do_ghw_title_handout = scope:change
 				divide_war_chest = {}
 			}
-			scope:new_title = { generate_coa = yes }
+			scope:new_title = {
+				generate_coa = yes
+				save_scope_as = ghw_dynamic_title # Remember this so we can later link title variables.
+			}
 		}
 		else_if = { #Otherwise hand out titles normally.
 			limit = {
@@ -3213,6 +3216,47 @@ undirected_great_holy_war = {
 
 		#Truce between the chief beneficiary & all defenders
 		add_truce_GHW_attacker_victory_effect = yes
+
+		# Track the involved winner/loser faiths for this Crusade and initialize a yearly counter from now,
+		# the time of conquest. Additionally, if we created a dynamic GHW title, store a pointer to it.
+		scope:attacker.faith.great_holy_war.ghw_target_title = {
+			# Track all such Crusader State titles in a global list for easy access:
+			add_to_global_variable_list = { name = ghw_won_kingdoms_DDB target = this }
+			# If the title was already GHWed, then move our title vars into "prev_" vars, as this
+			# may prove useful context in the future:
+			if = {
+				limit = { has_variable = ghw_winner_faith_DDB }
+				set_variable = { name = prev_ghw_winner_faith_DDB value = var:ghw_winner_faith_DDB }
+				set_variable = { name = prev_ghw_loser_faith_DDB value = var:ghw_loser_faith_DDB }
+				set_variable = { name = prev_ghw_elapsed_years_DDB value = var:ghw_elapsed_years_DDB }
+			}
+			if = {
+				limit = { has_variable = ghw_dynamic_title_DDB }
+				set_variable = { name = prev_ghw_dynamic_title_DDB value = var:ghw_dynamic_title_DDB }
+			}
+			# Set *our* variables:
+			set_variable = { name = ghw_winner_faith_DDB value = scope:attacker.faith }
+			set_variable = { name = ghw_loser_faith_DDB value = scope:defender.faith }
+			set_variable = { name = ghw_elapsed_years_DDB value = 0 }
+			# Whether we created a dynamic GHW title...
+			if = {
+				limit = { exists = scope:ghw_dynamic_title }
+				# Mark the dynamic title as being a derivative of the GHW target title:
+				scope:ghw_dynamic_title = {
+					set_variable = {
+						name = ghw_parent_title_DDB
+						value = scope:attacker.faith.great_holy_war.ghw_target_title
+					}
+				}
+				# Arguably should be a list, since past Crusades may have done the same, but whatever:
+				set_variable = { name = ghw_dynamic_title_DDB value = scope:ghw_dynamic_title }
+			}
+			else_if = {
+				limit = { has_variable = ghw_dynamic_title_DDB }
+				remove_variable = ghw_dynamic_title_DDB
+			}
+		}
+
 		debug_log = undirected_ghw_victory_debug_message
 	}
 

@@ -1,74 +1,45 @@
-##############################################  WAR OUTCOMES  ##############################################
+﻿
+#################################################  STARTUP  ##################################################
 
-# >> VANILLA DOC:
-# called for when a casus belli resolves in one of the following ways.
-#
-# same scopes are available in these events as in the CBs themselves, this just fires for all CBs instead
-# of a specific CB.
-#
-# note that any events/effects fired here WILL NOT show up in the war summary tooltip; they fire at the
-# same time as the war resolution, but are not actually part of the war resolution itself.
+on_game_start = {
+	on_actions = { on_game_start_DDB }
+}
 
-# scopes: attacker, defender
-on_war_won_attacker = {
-	# >> VANILLA DOC: The war notifications are handled in `effect` instead of `events` due to order of
-	# operations. `effect` fires on THIS tick, `events` fires on the NEXT tick, and the war gets destroyed
-	# between this tick and the next.
+on_game_start_after_lobby = {
+	on_actions = { on_game_start_after_lobby_DDB }
+}
 
-	# >> ZIJI: Since these on_actions are special in order of operations regarding when the war scope is still
-	# available, and we want to filter based upon the war scope's casus belli's scope's using_cb trigger, we
-	# cannot follow the best practice of forwarding to a custom on_action (the war scope will be destroyed by
-	# then, just like events as noted in the above VANILLA DOC), and instead we have to do the dodgy thing of
-	# appending to the vanilla on_action's existing effect.
+####
+
+on_game_start_DDB = {
 	effect = {
-		scope:attacker = {
-			random_character_war = {
+		# Prevent spurious errors in error.log...
+		# These variables are currently stored but never checked directly:
+		title:k_jerusalem = {
+			set_variable = { which = ghw_parent_title_DDB value = 0 }
+			remove_variable = ghw_parent_title_DDB
+			if = {
 				limit = {
-					primary_attacker = scope:attacker
-					primary_defender = scope:defender
 					OR = {
-						using_cb = undirected_great_holy_war
-						using_cb = directed_great_holy_war
-					}
-				}
-				casus_belli = {
-					every_target_title = {
-						limit = { tier = tier_kingdom }
-						# Track all such Crusader State titles in a global list for easy access:
-						add_to_global_list = ghw_won_kingdoms_ddb
-						# If the title was already GHWed, then move our title vars into "prev_" vars, as this
-						# may prove useful context in the future:
-						if = {
-							limit = { has_variable = ghw_winner_faith_ddb }
-							set_variable = {
-								name = prev_ghw_winner_faith_ddb
-								value = var:ghw_winner_faith_ddb
-							}
-							set_variable = {
-								name = prev_ghw_loser_faith_ddb
-								value = var:ghw_loser_faith_ddb
-							}
-							set_variable = {
-								name = prev_ghw_elapsed_years_ddb
-								value = var:ghw_elapsed_years_ddb
-							}
-						}
-						# Set *our* variables:
-						set_variable = {
-							name = ghw_winner_faith_ddb
-							value = scope:attacker.faith
-						}
-						set_variable = {
-							name = ghw_loser_faith_ddb
-							value = scope:defender.faith
-						}
-						set_variable = {
-							name = ghw_elapsed_years_ddb
-							value = 0
-						}
+						has_variable = prev_ghw_winner_faith_DDB
+						has_variable = prev_ghw_loser_faith_DDB
+						has_variable = prev_ghw_elapsed_years_DDB
+						has_variable = prev_ghw_dynamic_title_DDB
+						has_variable = ghw_elapsed_years_DDB
+						has_variable = ghw_parent_title_DDB
 					}
 				}
 			}
 		}
+	}
+}
+
+####
+
+on_game_start_after_lobby_DDB = {
+	trigger = {
+		always = no
+	}
+	effect = {
 	}
 }

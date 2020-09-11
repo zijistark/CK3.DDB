@@ -956,7 +956,7 @@ convert_at_war_interaction = {
 			scope:actor = {
 				# Crusaders are discouraged from assimilating into "local" (provincial or nearby) culture
 				# and religion:
-				can_convert_locally_considering_ghw_ddb = no
+				can_convert_locally_considering_ghw_DDB = no
 			}
 		}
 	}

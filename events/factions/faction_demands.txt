@@ -441,7 +441,7 @@ faction_demand.1001 = {
 
 		trigger = {
 			# Crusader States are discouraged from assimilating into local culture and religion:
-			can_convert_locally_considering_ghw_ddb = yes
+			can_convert_locally_considering_ghw_DDB = yes
 			# If more than 30% of your realm belongs to the revolting culture or faith, you get the option to switch to it.
 			OR = {
 				culture = scope:peasant_leader.culture
@@ -592,7 +592,7 @@ faction_demand.1001 = {
 			# Crusader States are discouraged from assimilating into local culture and religion:
 			modifier = {
 				add = -20
-				can_convert_locally_considering_ghw_ddb = no
+				can_convert_locally_considering_ghw_DDB = no
 			}
 			compare_modifier = { # Craven rulers can get up to +37% chance to accept demands.
 				value = ai_boldness

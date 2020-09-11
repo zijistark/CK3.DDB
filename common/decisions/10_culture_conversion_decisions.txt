@@ -155,7 +155,7 @@
 		# Crusaders are discouraged from assimilating into local culture (and religion):
 		modifier = {
 			factor = 0
-			can_convert_locally_considering_ghw_ddb = no
+			can_convert_locally_considering_ghw_DDB = no
 		}
 
 		# If you're not the same faith as your capital either, then never convert to its culture [Same culture and
