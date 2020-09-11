@@ -948,8 +948,16 @@ convert_at_war_interaction = {
 			scope:actor.primary_title.tier = tier_empire
 		}
 		modifier = {
-			scope:recipient.faith.fervor < scope:actor.faith.fervor
 			factor = 0
+			scope:recipient.faith.fervor < scope:actor.faith.fervor
+		}
+		modifier = {
+			factor = 0
+			scope:actor = {
+				# Crusaders are discouraged from assimilating into "local" (provincial or nearby) culture
+				# and religion:
+				can_convert_locally_considering_ghw_ddb = no
+			}
 		}
 	}
 }

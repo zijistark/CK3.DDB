@@ -152,22 +152,10 @@
 			}
 		}
 		
-		# A poor stopgap for Crusader States -- only lasts one generation and isn't tied to holding the title,
-		# so I need to appropriately save the Crusader faith to the title and test for any_liege_or_above
-		# holding it with that faith scope still saved and equal to the holder's faith. OR, a character-based
-		# approach with variable inheritance. [FIXME]
+		# Crusaders are discouraged from assimilating into local culture (and religion):
 		modifier = {
 			factor = 0
-			OR = {
-				AND = {
-					is_independent_ruler = yes
-					has_trait = crusader_king
-				}
-				top_liege = {
-					has_trait = crusader_king
-					faith = root.faith
-				}
-			}
+			can_convert_locally_considering_ghw_ddb = no
 		}
 
 		# If you're not the same faith as your capital either, then never convert to its culture [Same culture and

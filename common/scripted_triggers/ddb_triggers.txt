@@ -1,0 +1,42 @@
+
+can_convert_locally_considering_ghw_ddb = {
+	# If the scoped character is unlanded, then use their liege as our reference:
+	trigger_if = {
+		limit = {
+			is_ruler = yes
+			is_ai = yes
+		}
+		save_temporary_scope_as = ruler
+	}
+	trigger_else_if = {
+		limit = {
+			exists = liege
+			is_ai = yes
+		}
+		liege = { save_temporary_scope_as = ruler }
+	}
+	# If they are a ruler or had a liege:
+	trigger_if = {
+		limit = { exists = scope:ruler }
+		any_in_global_list = {
+			list = ghw_won_kingdoms_ddb # List of target kingdoms won via GHWs
+			exists = holder # Must still have a holder
+			holder.faith = var:ghw_winner_faith_ddb # Holder's faith must be the same as the GHW victors'
+			save_temporary_scope_as = ghw_kingdom
+			scope:ruler = {
+				faith = scope:ghw_kingdom.holder.faith # Ruler must have same faith too
+				# Ruler must be de facto vassal or below of the GHW kingdom's holder:
+				target_is_liege_or_above = scope:ghw_kingdom.holder
+				# Ensure their capital is near/in the GHW kingdom:
+				capital_barony = {
+					OR = {
+						kingdom = scope:ghw_kingdom # Capital is directly in the GHW kingdom
+						any_title_to_title_neighboring_kingdom = { # Capital's in a de jure neighbor kingdom
+							this = scope:ghw_kingdom
+						}
+					}
+				}
+			}
+		}
+	}
+}
