@@ -25,8 +25,11 @@ can_convert_locally_considering_ghw_ddb = {
 			save_temporary_scope_as = ghw_kingdom
 			scope:ruler = {
 				faith = scope:ghw_kingdom.holder.faith # Ruler must have same faith too
-				# Ruler must be de facto vassal or below of the GHW kingdom's holder:
-				target_is_liege_or_above = scope:ghw_kingdom.holder
+				# Ruler must be de facto vassal or below of the GHW kingdom's holder or the holder themselves:
+				OR = {
+					target_is_liege_or_above = scope:ghw_kingdom.holder
+					this = scope:ghw_kingdom.holder
+				}
 				# Ensure their capital is near/in the GHW kingdom:
 				capital_barony = {
 					OR = {
