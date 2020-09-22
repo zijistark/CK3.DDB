@@ -110,27 +110,27 @@ fervor.1001 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			add = 2
+			add = 0.5
 			num_county_followers >= 300
 		}
 		modifier = {
-			add = 1.67
+			add = 0.5
 			num_county_followers >= 200
 		}
 		modifier = {
-			add = 1.33
+			add = 0.5
 			num_county_followers >= 100
 		}
 		modifier = {
-			add = 1.00
+			add = 0.5
 			num_county_followers >= 50
 		}
 		modifier = {
-			add = 0.67
+			add = 0.5
 			num_county_followers >= 25
 		}
 		modifier = {
-			add = 0.33
+			add = 0.5
 			num_county_followers >= 10
 		}
 		modifier = {
@@ -138,18 +138,20 @@ fervor.1001 = {
 			exists = religious_head
 			religious_head = {
 				num_sinful_traits >= 2
-				}
+			}
 		}
 		modifier = {
 			add = 1.5
 			exists = religious_head
 			religious_head = {
 				num_sinful_traits >= 3
-				}
+			}
 		}
 	}
 
 	immediate = {
+		set_local_variable = { name = fervor_change_base value = -10.0 }
+		set_local_variable = { name = fervor_change_mult value = 1.0 }
 		# Pick a suitable theocrat to be the target of our scandal.
 		random_list = {
 			20 = { # Religious Head
@@ -157,9 +159,9 @@ fervor.1001 = {
 					exists = religious_head
 					religious_head = {
 						num_sinful_traits >= 1
+						is_capable_adult_ai = yes
 					}
 				}
-
 				compare_modifier = {
 					value = religious_head.num_sinful_traits
 					multiplier = 20
@@ -168,14 +170,13 @@ fervor.1001 = {
 					value = religious_head.num_virtuous_traits
 					multiplier = -20
 				}
-
 				modifier = {
 					add = 10
 					religious_head = {
 						has_strong_religious_conviction_trigger = no
 					}
 				}
-
+				set_local_variable = { name = fervor_change_mult value = 2.0 }
 				religious_head = {
 					save_scope_as = sinful_theocrat
 				}
@@ -184,6 +185,7 @@ fervor.1001 = {
 				trigger = {
 					any_theocratic_ruler = {
 						valid_scandal_target = yes
+						highest_held_title_tier >= 1
 					}
 				}
 				random_theocratic_ruler = {
@@ -199,10 +201,8 @@ fervor.1001 = {
 						valid_scandal_target = yes
 						highest_held_title_tier >= 1
 					}
-
 					weight = {
 						base = 1
-
 						compare_modifier = {
 							value = num_sinful_traits
 							multiplier = 50
@@ -216,8 +216,27 @@ fervor.1001 = {
 							has_strong_religious_conviction_trigger = no
 						}
 						modifier = {
-							add = 50
+							add = 25
+							highest_held_title_tier >= 3
+						}
+						modifier = {
+							add = 25
+							highest_held_title_tier >= 4
+						}
+						modifier = {
+							add = 25
 							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 3
+						}
+						modifier = {
+							add = 25
+							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 4
+						}
+						modifier = {
+							add = 15
+							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 5
 						}
 						modifier = {
 							add = 75
@@ -236,6 +255,14 @@ fervor.1001 = {
 							}
 						}
 					}
+					if = {
+						limit = { highest_held_title_tier = 2 }
+						set_local_variable = { name = fervor_change_mult value = 0.5 }
+					}
+					else_if = {
+						limit = { highest_held_title_tier = 1 }
+						set_local_variable = { name = fervor_change_mult value = 0.3 }
+					}
 					save_scope_as = sinful_theocrat
 				}
 			}
@@ -247,6 +274,7 @@ fervor.1001 = {
 						cp:councillor_court_chaplain = {
 							valid_scandal_target = yes
 						}
+						highest_held_title_tier >= 1
 					}
 				}
 				random_ruler = {
@@ -271,10 +299,8 @@ fervor.1001 = {
 						}
 						highest_held_title_tier >= 1
 					}
-
 					weight = {
 						base = 1
-
 						compare_modifier = {
 							value = cp:councillor_court_chaplain.num_sinful_traits
 							multiplier = 50
@@ -290,10 +316,27 @@ fervor.1001 = {
 							}
 						}
 						modifier = {
-							add = 50
-							cp:councillor_court_chaplain = {
-								is_powerful_vassal = yes
-							}
+							add = 25
+							highest_held_title_tier >= 3
+						}
+						modifier = {
+							add = 25
+							highest_held_title_tier >= 4
+						}
+						modifier = {
+							add = 25
+							highest_held_title_tier >= 3
+							cp:councillor_court_chaplain = { is_powerful_vassal = yes }
+						}
+						modifier = {
+							add = 25
+							highest_held_title_tier >= 4
+							cp:councillor_court_chaplain = { is_powerful_vassal = yes }
+						}
+						modifier = {
+							add = 15
+							highest_held_title_tier >= 5
+							cp:councillor_court_chaplain = { is_powerful_vassal = yes }
 						}
 						modifier = {
 							add = 25
@@ -307,6 +350,14 @@ fervor.1001 = {
 								culture = prev.culture
 							}
 						}
+					}
+					if = {
+						limit = { highest_held_title_tier = 2 }
+						set_local_variable = { name = fervor_change_mult value = 0.5 }
+					}
+					else_if = {
+						limit = { highest_held_title_tier = 1 }
+						set_local_variable = { name = fervor_change_mult value = 0.3 }
 					}
 					cp:councillor_court_chaplain = {
 						save_scope_as = sinful_theocrat
@@ -325,6 +376,7 @@ fervor.1001 = {
 								has_holding_type = church_holding
 							}
 						}
+						highest_held_title_tier >= 1
 					}
 				}
 				random_ruler = {
@@ -361,10 +413,8 @@ fervor.1001 = {
 						}
 						highest_held_title_tier >= 1
 					}
-
 					weight = {
 						base = 1
-
 						compare_modifier = {
 							value = num_sinful_traits
 							multiplier = 50
@@ -378,7 +428,26 @@ fervor.1001 = {
 							has_strong_religious_conviction_trigger = no
 						}
 						modifier = {
-							add = 50
+							add = 25
+							highest_held_title_tier >= 3
+						}
+						modifier = {
+							add = 25
+							highest_held_title_tier >= 4
+						}
+						modifier = {
+							add = 25
+							liege.highest_held_title_tier >= 3
+							is_powerful_vassal = yes
+						}
+						modifier = {
+							add = 25
+							liege.highest_held_title_tier >= 4
+							is_powerful_vassal = yes
+						}
+						modifier = {
+							add = 15
+							liege.highest_held_title_tier >= 5
 							is_powerful_vassal = yes
 						}
 						modifier = {
@@ -398,6 +467,14 @@ fervor.1001 = {
 							}
 						}
 					}
+					if = {
+						limit = { highest_held_title_tier = 2 }
+						set_local_variable = { name = fervor_change_mult value = 0.5 }
+					}
+					else_if = {
+						limit = { highest_held_title_tier = 1 }
+						set_local_variable = { name = fervor_change_mult value = 0.3 }
+					}
 					save_scope_as = sinful_theocrat
 				}
 			}
@@ -411,143 +488,143 @@ fervor.1001 = {
 			hidden_effect = { # Just collapse this - it's very long and not very interesting!
 				if = {
 					limit = { theocrat_has_sin = { SIN = lustful } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_lustful }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_lustful }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = chaste } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_chaste }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_chaste }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = gluttonous } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_gluttonous }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_gluttonous }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = temperate } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_temperate }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_temperate }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = greedy } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_greedy }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_greedy }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = generous } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_generous }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_generous }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = lazy } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_lazy }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_lazy }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = diligent } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_diligent }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_diligent }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = wrathful } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_wrathful }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_wrathful }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = calm } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_calm }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_calm }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = patient } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_patient }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_patient }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = impatient } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_impatient }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_impatient }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = arrogant } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_arrogant }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_arrogant }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = humble } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_humble }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_humble }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = deceitful } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_deceitful }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_deceitful }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = honest } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_honest }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_honest }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = craven } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_craven }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_craven }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = brave } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_brave }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_brave }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = shy } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_shy }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_shy }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = gregarious } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_gregarious }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_gregarious }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = ambitious } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_ambitious }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_ambitious }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = content } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_content }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_content }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = arbitrary } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_arbitrary }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_arbitrary }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = just } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_just }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_just }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = cynical } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_cynical }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_cynical }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = zealous } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_zealous }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_zealous }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = paranoid } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_paranoid }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_paranoid }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = trusting } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_trusting }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_trusting }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = compassionate } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_compassionate }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_compassionate }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = callous } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_callous }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_callous }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = sadistic } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_sadistic }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_sadistic }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = stubborn } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_stubborn }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_stubborn }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = fickle } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_fickle }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_fickle }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = vengeful } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_vengeful }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_vengeful }
 				}
 				else_if = {
 					limit = { theocrat_has_sin = { SIN = forgiving } }
-						save_scope_value_as = { name = scandal_type value = flag:fervor_1001_forgiving }
+					save_scope_value_as = { name = scandal_type value = flag:fervor_1001_forgiving }
 				}
 			}
 
@@ -560,6 +637,17 @@ fervor.1001 = {
 				random_dummy_gender_clergy_effect = yes
 			}
 
+			# Change fervor now, ahead of notifications, and save the final fervor change:
+			set_local_variable = {
+				name = fervor_change
+				value = {
+					value = local_var:fervor_change_base
+					multiply = local_var:fervor_change_mult
+				}
+			}
+
+			change_fervor = local_var:fervor_change
+
 			# If the Head of Faith is the sinful theocrat, it will be more impactful than for a random theocrat.
 			if = {
 				limit = {
@@ -567,8 +655,6 @@ fervor.1001 = {
 					exists = scope:sinful_theocrat
 					religious_head = scope:sinful_theocrat
 				}
-				change_fervor = -20
-
 				# Due to the importance of the scandal all players will get an event.
 				every_player = {
 					limit = {
@@ -583,9 +669,6 @@ fervor.1001 = {
 				limit = {
 					exists = scope:sinful_theocrat
 				}
-
-				change_fervor = -10
-
 				every_player = {
 					limit = {
 						faith = root
@@ -634,19 +717,8 @@ fervor.1001 = {
 							right_icon = scope:sinful_theocrat
 
 							show_as_tooltip = {
-								if = { # Show the increased fervor loss in the message effects if the sinful theocrat was the HoF.
-									limit = {
-										exists = faith.religious_head
-										faith.religious_head = scope:sinful_theocrat
-									}
-									faith = {
-										change_fervor = -20
-									}
-								}
-								else = { # Otherwise show the standard scandal loss.
-									faith = {
-										change_fervor = -10
-									}
+								faith = {
+									change_fervor = local_var:fervor_change
 								}
 								scope:sinful_theocrat = {
 									add_piety_level = -1
@@ -673,6 +745,7 @@ fervor.1001 = {
 fervor.1002 = {
 	type = character_event
 	title = fervor.1002.t
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -685,146 +758,146 @@ fervor.1002 = {
 			random_valid = {
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_lustful }
-						desc = fervor.1002.desc.lustful
+					desc = fervor.1002.desc.lustful
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_chaste }
-						desc = fervor.1002.desc.chaste
+					desc = fervor.1002.desc.chaste
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_gluttonous }
-						desc = fervor.1002.desc.gluttonous
+					desc = fervor.1002.desc.gluttonous
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_temperate }
-						desc = fervor.1002.desc.temperate
+					desc = fervor.1002.desc.temperate
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_greedy }
-						desc = fervor.1002.desc.greedy
+					desc = fervor.1002.desc.greedy
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_generous }
-						desc = fervor.1002.desc.generous
+					desc = fervor.1002.desc.generous
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_lazy }
-						desc = fervor.1002.desc.lazy
+					desc = fervor.1002.desc.lazy
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_diligent }
-						desc = fervor.1002.desc.diligent
+					desc = fervor.1002.desc.diligent
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_wrathful }
-						desc = fervor.1002.desc.wrathful
+					desc = fervor.1002.desc.wrathful
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_calm }
-						desc = fervor.1002.desc.calm
+					desc = fervor.1002.desc.calm
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_patient }
-						desc = fervor.1002.desc.patient
+					desc = fervor.1002.desc.patient
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_impatient }
-						desc = fervor.1002.desc.impatient
+					desc = fervor.1002.desc.impatient
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_arrogant }
-						desc = fervor.1002.desc.arrogant
+					desc = fervor.1002.desc.arrogant
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_humble }
-						desc = fervor.1002.desc.humble
+					desc = fervor.1002.desc.humble
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_deceitful }
-						desc = fervor.1002.desc.deceitful
+					desc = fervor.1002.desc.deceitful
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_honest }
-						desc = fervor.1002.desc.honest
+					desc = fervor.1002.desc.honest
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_craven }
-						desc = fervor.1002.desc.craven
+					desc = fervor.1002.desc.craven
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_brave }
-						desc = fervor.1002.desc.brave
+					desc = fervor.1002.desc.brave
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_shy }
-						desc = fervor.1002.desc.shy
+					desc = fervor.1002.desc.shy
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_gregarious }
-						desc = fervor.1002.desc.gregarious
+					desc = fervor.1002.desc.gregarious
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_ambitious }
-						desc = fervor.1002.desc.ambitious
+					desc = fervor.1002.desc.ambitious
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_content }
-						desc = fervor.1002.desc.content
+					desc = fervor.1002.desc.content
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_arbitrary }
-						desc = fervor.1002.desc.arbitrary
+					desc = fervor.1002.desc.arbitrary
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_just }
-						desc = fervor.1002.desc.just
+					desc = fervor.1002.desc.just
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_cynical }
-						desc = fervor.1002.desc.cynical
+					desc = fervor.1002.desc.cynical
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_zealous }
-						desc = fervor.1002.desc.zealous
+					desc = fervor.1002.desc.zealous
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_paranoid }
-						desc = fervor.1002.desc.paranoid
+					desc = fervor.1002.desc.paranoid
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_trusting }
-						desc = fervor.1002.desc.trusting
+					desc = fervor.1002.desc.trusting
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_compassionate }
-						desc = fervor.1002.desc.compassionate
+					desc = fervor.1002.desc.compassionate
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_callous }
-						desc = fervor.1002.desc.callous
+					desc = fervor.1002.desc.callous
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_sadistic }
-						desc = fervor.1002.desc.sadistic
+					desc = fervor.1002.desc.sadistic
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_stubborn }
-						desc = fervor.1002.desc.stubborn
+					desc = fervor.1002.desc.stubborn
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_fickle }
-						desc = fervor.1002.desc.fickle
+					desc = fervor.1002.desc.fickle
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_vengeful }
-						desc = fervor.1002.desc.vengeful
+					desc = fervor.1002.desc.vengeful
 				}
 				triggered_desc = {
 					trigger = { scope:scandal_type = flag:fervor_1001_forgiving }
-						desc = fervor.1002.desc.forgiving
+					desc = fervor.1002.desc.forgiving
 				}
 			}
-				desc = fervor.1002.desc.fallback
+			desc = fervor.1002.desc.fallback
 		}
 		first_valid = {
 			triggered_desc = {
@@ -833,8 +906,10 @@ fervor.1002 = {
 			}
 			desc = fervor.1002.desc.end
 		}
-		}
+	}
+
 	theme = faith
+
 	override_background = {
 		trigger = {
 			scope:scandal_type = flag:fervor_1001_sadistic
@@ -853,7 +928,6 @@ fervor.1002 = {
 		}
 		event_background = study
 	}
-
 
 	left_portrait = {
 		character = scope:sinful_theocrat
@@ -887,7 +961,6 @@ fervor.1002 = {
 	}
 
 	immediate = {
-
 		# Save any necessary scopes we may need for localization.
 		if = {
 			limit = {
@@ -907,17 +980,10 @@ fervor.1002 = {
 		}
 
 		# These effects already happened in the previous event, but we also need to notify players about the impact.
-		if = {
-			limit = {
-				exists = faith.religious_head
-				faith.religious_head = scope:sinful_theocrat
-			}
-			show_as_tooltip = { faith = { change_fervor = -20 } }
-		}
-		else = {
-			show_as_tooltip = { faith = { change_fervor = -10 } }
-		}
 		show_as_tooltip = {
+			faith = {
+				change_fervor = local_var:fervor_change
+			}
 			scope:sinful_theocrat = {
 				add_piety_level = -1
 			}
@@ -1067,105 +1133,119 @@ fervor.2001 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			add = 0.33
-			num_county_followers < 300
+			add = 0.5
+			num_county_followers >= 300
 		}
 		modifier = {
-			add = 0.67
-			num_county_followers < 200
+			add = 0.5
+			num_county_followers >= 200
 		}
 		modifier = {
-			add = 1.00
-			num_county_followers < 100
+			add = 0.5
+			num_county_followers >= 100
 		}
 		modifier = {
-			add = 1.33
-			num_county_followers < 50
+			add = 0.5
+			num_county_followers >= 50
 		}
 		modifier = {
-			add = 1.67
-			num_county_followers < 25
+			add = 0.5
+			num_county_followers >= 25
 		}
 		modifier = {
-			add = 2.00
-			num_county_followers < 10
+			add = 0.5
+			num_county_followers >= 10
 		}
 		modifier = {
-			add = 1.5
+			add = 0.75
 			exists = religious_head
 			religious_head = {
 				num_virtuous_traits >= 2
 				piety_level >= medium_piety_level
-				}
+			}
 		}
 		modifier = {
-			add = 1.5
+			add = 0.75
+			exists = religious_head
+			religious_head = {
+				num_virtuous_traits >= 2
+				piety_level >= high_piety_level
+			}
+		}
+		modifier = {
+			add = 0.75
+			exists = religious_head
+			religious_head = {
+				num_virtuous_traits >= 3
+				piety_level >= medium_piety_level
+			}
+		}
+		modifier = {
+			add = 0.75
 			exists = religious_head
 			religious_head = {
 				num_virtuous_traits >= 3
 				piety_level >= high_piety_level
-				}
+			}
 		}
 	}
 
 	immediate = {
+		set_local_variable = { name = fervor_change_base value = 10.0 }
+		set_local_variable = { name = fervor_change_mult value = 1.0 }
 		random_list = { #Pick either Religious Head (if any), powerful theocrat (if not lay clergy), or powerful ruler (if lay clergy)
-			10 = { # Virtuous Head of Faith
+			20 = { # Virtuous Head of Faith
 				trigger = {
 					exists = religious_head
 					religious_head = {
 						num_virtuous_traits >= 1
+						is_capable_adult_ai = yes
 					}
 				}
+				compare_modifier = {
+					value = religious_head.num_sinful_traits
+					multiplier = -20
+				}
+				compare_modifier = {
+					value = religious_head.num_virtuous_traits
+					multiplier = 20
+				}
 				modifier = {
-					add = -15
+					add = -30
 					religious_head = {
 						OR = {
 							has_trait = excommunicated
 							has_trait = cynical
 						}
-						}
+					}
 				}
 				modifier = {
-					add = 15
-					religious_head = {
-						num_virtuous_traits >= 2
-						piety_level >= medium_piety_level
-						}
-				}
-				modifier = {
-					add = 15
-					religious_head = {
-						num_virtuous_traits >= 3
-						piety_level >= high_piety_level
-						}
-				}
-				modifier = {
-					add = 15
+					add = 25
 					religious_head = {
 						has_strong_religious_conviction_trigger = yes
-						}
+					}
 				}
 				modifier = {
-					add = -15
+					add = 15
 					religious_head = {
-						num_sinful_traits >= 1
 						piety_level >= high_piety_level
-						}
+					}
 				}
 				modifier = {
-					add = -15
+					add = -25
 					religious_head = {
 						num_sinful_traits >= 2
+						num_virtuous_traits <= 2
 						piety_level >= high_piety_level
-						}
+					}
 				}
+				set_local_variable = { name = fervor_change_mult value = 2.0 }
 				religious_head = {
 					save_scope_as = virtuous_theocrat
 					add_piety = major_piety_gain
 				}
 			}
-			40 = { # Virtuous Theocracy-Government Ruler
+			100 = { # Virtuous Theocracy-Government Ruler
 				trigger = {
 					any_theocratic_ruler = {
 						faith = root
@@ -1184,50 +1264,56 @@ fervor.2001 = {
 						NOT = { has_trait = cynical }
 					}
 					alternative_limit = {
+						highest_held_title_tier >= 2
+						suitable_theocrat_fervor_2001_trigger = yes
+					}
+					alternative_limit = {
 						suitable_theocrat_fervor_2001_trigger = yes
 					}
 					weight = {
-						base = 100
-
-						modifier = {
-							add = -20
-							num_sinful_traits >= 1
+						base = 1
+						compare_modifier = {
+							value = num_sinful_traits
+							multiplier = -50
+						}
+						compare_modifier = {
+							value = num_virtuous_traits
+							multiplier = 50
 						}
 						modifier = {
-							add = -20
-							num_sinful_traits >= 2
-						}
-						modifier = {
-							add = 15
+							add = 25
 							has_strong_religious_conviction_trigger = yes
 						}
 						modifier = {
-							add = 10
+							add = 15
 							highest_held_title_tier >= 3
 						}
 						modifier = {
-							add = 10
+							add = 25
 							highest_held_title_tier >= 4
 						}
 						modifier = {
-							add = 20
-							num_virtuous_traits >= 2
-						}
-						modifier = {
-							add = 20
-							num_virtuous_traits >= 3
-						}
-						modifier = {
-							add = 20
-							num_virtuous_traits >= 4
+							add = 15
+							piety_level >= medium_piety_level
 						}
 						modifier = {
 							add = 25
 							piety_level >= high_piety_level
 						}
 						modifier = {
-							add = 50
+							add = 15
 							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 3
+						}
+						modifier = {
+							add = 25
+							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 4
+						}
+						modifier = {
+							add = 15
+							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 5
 						}
 						modifier = {
 							add = 75
@@ -1246,11 +1332,19 @@ fervor.2001 = {
 							}
 						}
 					}
+					if = {
+						limit = { highest_held_title_tier = 2 }
+						set_local_variable = { name = fervor_change_mult value = 0.5 }
+					}
+					else_if = {
+						limit = { highest_held_title_tier = 1 }
+						set_local_variable = { name = fervor_change_mult value = 0.3 }
+					}
 					save_scope_as = virtuous_theocrat
 					add_piety = major_piety_gain
 				}
 			}
-			40 = { # Theocracy: Virtuous Bishop
+			50 = { # Theocracy: Virtuous Bishop
 				trigger = {	
 					has_doctrine_parameter = theocracy_temple_lease
 					any_ruler = {
@@ -1282,10 +1376,8 @@ fervor.2001 = {
 						}
 						highest_held_title_tier >= 1
 					}
-
 					weight = {
 						base = 1
-
 						compare_modifier = {
 							value = cp:councillor_court_chaplain.num_virtuous_traits
 							multiplier = 50
@@ -1294,18 +1386,46 @@ fervor.2001 = {
 							value = cp:councillor_court_chaplain.num_sinful_traits
 							multiplier = -50
 						}
-						
 						modifier = {
 							add = 25
 							cp:councillor_court_chaplain = {
-								has_strong_religious_conviction_trigger = no
+								has_strong_religious_conviction_trigger = yes
 							}
 						}
 						modifier = {
-							add = 50
+							add = 15
 							cp:councillor_court_chaplain = {
-								is_powerful_vassal = yes
+								piety_level >= medium_piety_level
 							}
+						}
+						modifier = {
+							add = 25
+							cp:councillor_court_chaplain = {
+								piety_level >= high_piety_level
+							}
+						}
+						modifier = {
+							add = 15
+							highest_held_title_tier >= 3
+						}
+						modifier = {
+							add = 25
+							highest_held_title_tier >= 4
+						}
+						modifier = {
+							add = 15
+							highest_held_title_tier >= 3
+							cp:councillor_court_chaplain = { is_powerful_vassal = yes }
+						}
+						modifier = {
+							add = 25
+							highest_held_title_tier >= 4
+							cp:councillor_court_chaplain = { is_powerful_vassal = yes }
+						}
+						modifier = {
+							add = 15
+							highest_held_title_tier >= 5
+							cp:councillor_court_chaplain = { is_powerful_vassal = yes }
 						}
 						modifier = {
 							add = 25
@@ -1320,7 +1440,14 @@ fervor.2001 = {
 							}
 						}
 					}
-
+					if = {
+						limit = { highest_held_title_tier = 2 }
+						set_local_variable = { name = fervor_change_mult value = 0.5 }
+					}
+					else_if = {
+						limit = { highest_held_title_tier = 1 }
+						set_local_variable = { name = fervor_change_mult value = 0.3 }
+					} 
 					cp:councillor_court_chaplain = {
 						save_scope_as = virtuous_theocrat
 					}
@@ -1351,50 +1478,56 @@ fervor.2001 = {
 						NOT = { has_trait = cynical }
 					}
 					alternative_limit = {
+						highest_held_title_tier >= 2
+						suitable_theocrat_fervor_2001_trigger = yes
+					}
+					alternative_limit = {
 						suitable_theocrat_fervor_2001_trigger = yes
 					}
 					weight = {
-						base = 100
-
-						modifier = {
-							add = -20
-							num_sinful_traits >= 1
+						base = 1
+						compare_modifier = {
+							value = num_sinful_traits
+							multiplier = -50
+						}
+						compare_modifier = {
+							value = num_virtuous_traits
+							multiplier = 50
 						}
 						modifier = {
-							add = -20
-							num_sinful_traits >= 2
-						}
-						modifier = {
-							add = 15
+							add = 25
 							has_strong_religious_conviction_trigger = yes
 						}
 						modifier = {
-							add = 10
+							add = 15
 							highest_held_title_tier >= 3
 						}
 						modifier = {
-							add = 10
+							add = 25
 							highest_held_title_tier >= 4
 						}
 						modifier = {
-							add = 20
-							num_virtuous_traits >= 2
-						}
-						modifier = {
-							add = 20
-							num_virtuous_traits >= 3
-						}
-						modifier = {
-							add = 20
-							num_virtuous_traits >= 4
+							add = 15
+							piety_level >= medium_piety_level
 						}
 						modifier = {
 							add = 25
 							piety_level >= high_piety_level
 						}
 						modifier = {
-							add = 50
+							add = 15
 							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 3
+						}
+						modifier = {
+							add = 25
+							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 4
+						}
+						modifier = {
+							add = 15
+							is_powerful_vassal = yes
+							liege.highest_held_title_tier >= 5
 						}
 						modifier = {
 							add = 75
@@ -1413,6 +1546,14 @@ fervor.2001 = {
 							}
 						}
 					}
+					if = {
+						limit = { highest_held_title_tier = 2 }
+						set_local_variable = { name = fervor_change_mult value = 0.5 }
+					}
+					else_if = {
+						limit = { highest_held_title_tier = 1 }
+						set_local_variable = { name = fervor_change_mult value = 0.3 }
+					}
 					save_scope_as = virtuous_theocrat
 				}
 			}
@@ -1421,11 +1562,11 @@ fervor.2001 = {
 			limit = {
 				exists = scope:virtuous_theocrat
 			}
-		# Pick an appropriate exaltation for our virtuous theocrat, based on their personality.
+			# Pick an appropriate exaltation for our virtuous theocrat, based on their personality.
 			hidden_effect = { # Just collapse this - it's very long and not very interesting!
 				if = {
 					limit = { theocrat_has_virtue = { VIRTUE = lustful } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_lustful }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_lustful }
 				}
 				else_if = {
 					limit = {
@@ -1434,143 +1575,152 @@ fervor.2001 = {
 							theocrat_has_virtue = { VIRTUE = celibate }
 						}
 					}
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_chaste }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_chaste }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = gluttonous } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_gluttonous }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_gluttonous }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = temperate } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_temperate }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_temperate }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = greedy } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_greedy }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_greedy }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = generous } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_generous }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_generous }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = lazy } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_lazy }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_lazy }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = diligent } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_diligent }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_diligent }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = wrathful } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_wrathful }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_wrathful }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = calm } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_calm }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_calm }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = patient } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_patient }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_patient }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = impatient } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_impatient }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_impatient }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = arrogant } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_arrogant }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_arrogant }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = humble } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_humble }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_humble }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = deceitful } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_deceitful }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_deceitful }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = honest } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_honest }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_honest }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = craven } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_craven }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_craven }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = brave } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_brave }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_brave }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = shy } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_shy }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_shy }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = gregarious } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_gregarious }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_gregarious }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = ambitious } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_ambitious }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_ambitious }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = content } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_content }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_content }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = arbitrary } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_arbitrary }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_arbitrary }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = just } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_just }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_just }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = cynical } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_cynical }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_cynical }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = zealous } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_zealous }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_zealous }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = paranoid } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_paranoid }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_paranoid }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = trusting } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_trusting }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_trusting }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = compassionate } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_compassionate }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_compassionate }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = callous } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_callous }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_callous }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = sadistic } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_sadistic }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_sadistic }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = stubborn } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_stubborn }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_stubborn }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = fickle } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_fickle }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_fickle }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = vengeful } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_vengeful }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_vengeful }
 				}
 				else_if = {
 					limit = { theocrat_has_virtue = { VIRTUE = forgiving } }
-						save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_forgiving }
+					save_scope_value_as = { name = exaltation_type value = flag:fervor_2001_forgiving }
 				}
 			}
 
-			change_fervor = 10
+			# Change fervor now, ahead of notifications, and save the final fervor change:
+			set_local_variable = {
+				name = fervor_change
+				value = {
+					value = local_var:fervor_change_base
+					multiply = local_var:fervor_change_mult
+				}
+			}
+
+			change_fervor = local_var:fervor_change
 
 			every_player = {
 				limit = {
@@ -1620,7 +1770,7 @@ fervor.2001 = {
 
 						show_as_tooltip = {
 							faith = {
-								change_fervor = 10
+								change_fervor = local_var:fervor_change
 							}
 							scope:virtuous_theocrat = {
 								add_piety = major_piety_gain
@@ -1649,57 +1799,57 @@ fervor.2002 = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_lustful
 					}
-						desc = fervor.2002.desc.lustful
+					desc = fervor.2002.desc.lustful
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_chaste
 					}
-						desc = fervor.2002.desc.chaste
+					desc = fervor.2002.desc.chaste
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_gluttonous
 					}
-						desc = fervor.2002.desc.gluttonous
+					desc = fervor.2002.desc.gluttonous
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_temperate
 					}
-						desc = fervor.2002.desc.temperate
+					desc = fervor.2002.desc.temperate
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_greedy
 					}
-						desc = fervor.2002.desc.greedy
+					desc = fervor.2002.desc.greedy
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_generous
 						NOT = { scope:virtuous_theocrat = faith.religious_head }
 					}
-						desc = fervor.2002.desc.generous
+					desc = fervor.2002.desc.generous
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_generous
 						scope:virtuous_theocrat = faith.religious_head
 					}
-						desc = fervor.2002.desc.generous.pope
+					desc = fervor.2002.desc.generous.pope
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_lazy
 					}
-						desc = fervor.2002.desc.lazy
+					desc = fervor.2002.desc.lazy
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_diligent
 					}
-						desc = fervor.2002.desc.diligent
+					desc = fervor.2002.desc.diligent
 				}
 				triggered_desc = {
 					trigger = {
@@ -1709,7 +1859,7 @@ fervor.2002 = {
 							scope:exaltation_type = flag:fervor_2001_vengeful
 						}
 					}
-						desc = fervor.2002.desc.wrathful
+					desc = fervor.2002.desc.wrathful
 				}
 				triggered_desc = {
 					trigger = {
@@ -1719,7 +1869,7 @@ fervor.2002 = {
 							scope:exaltation_type = flag:fervor_2001_vengeful
 						}
 					}
-						desc = fervor.2002.desc.wrathful.pope
+					desc = fervor.2002.desc.wrathful.pope
 				}
 				triggered_desc = {
 					trigger = {
@@ -1728,97 +1878,97 @@ fervor.2002 = {
 							scope:exaltation_type = flag:fervor_2001_patient
 						}
 					}
-						desc = fervor.2002.desc.calm
+					desc = fervor.2002.desc.calm
 				}
 				triggered_desc = {
 					trigger = {
 						NOT = { scope:virtuous_theocrat = faith.religious_head }
 						scope:exaltation_type = flag:fervor_2001_impatient
 					}
-						desc = fervor.2002.desc.impatient
+					desc = fervor.2002.desc.impatient
 				}
 				triggered_desc = {
 					trigger = {
 						scope:virtuous_theocrat = faith.religious_head
 						scope:exaltation_type = flag:fervor_2001_impatient
 					}
-						desc = fervor.2002.desc.impatient.pope
+					desc = fervor.2002.desc.impatient.pope
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_arrogant
 					}
-						desc = fervor.2002.desc.arrogant
+					desc = fervor.2002.desc.arrogant
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_humble
 					}
-						desc = fervor.2002.desc.humble
+					desc = fervor.2002.desc.humble
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_deceitful
 					}
-						desc = fervor.2002.desc.deceitful
+					desc = fervor.2002.desc.deceitful
 				}
 				triggered_desc = {
 					trigger = {
 						NOT = { scope:virtuous_theocrat = faith.religious_head }
 						scope:exaltation_type = flag:fervor_2001_honest
 					}
-						desc = fervor.2002.desc.honest
+					desc = fervor.2002.desc.honest
 				}
 				triggered_desc = {
 					trigger = {
 						scope:virtuous_theocrat = faith.religious_head
 						scope:exaltation_type = flag:fervor_2001_honest
 					}
-						desc = fervor.2002.desc.honest.pope
+					desc = fervor.2002.desc.honest.pope
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_craven
 					}
-						desc = fervor.2002.desc.craven
+					desc = fervor.2002.desc.craven
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_brave
 					}
-						desc = fervor.2002.desc.brave
+					desc = fervor.2002.desc.brave
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_shy
 					}
-						desc = fervor.2002.desc.shy
+					desc = fervor.2002.desc.shy
 				}
 				triggered_desc = {
 					trigger = {
 						NOT = { scope:virtuous_theocrat = faith.religious_head }
 						scope:exaltation_type = flag:fervor_2001_gregarious
 					}
-						desc = fervor.2002.desc.gregarious
+					desc = fervor.2002.desc.gregarious
 				}
 				triggered_desc = {
 					trigger = {
 						scope:virtuous_theocrat = faith.religious_head
 						scope:exaltation_type = flag:fervor_2001_gregarious
 					}
-						desc = fervor.2002.desc.gregarious.pope
+					desc = fervor.2002.desc.gregarious.pope
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_ambitious
 					}
-						desc = fervor.2002.desc.ambitious
+					desc = fervor.2002.desc.ambitious
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_content
 					}
-						desc = fervor.2002.desc.content
+					desc = fervor.2002.desc.content
 				}
 				triggered_desc = {
 					trigger = {
@@ -1827,19 +1977,19 @@ fervor.2002 = {
 							scope:exaltation_type = flag:fervor_2001_fickle
 						}
 					}
-						desc = fervor.2002.desc.arbitrary
+					desc = fervor.2002.desc.arbitrary
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_just
 					}
-						desc = fervor.2002.desc.just
+					desc = fervor.2002.desc.just
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_cynical
 					}
-						desc = fervor.2002.desc.cynical
+					desc = fervor.2002.desc.cynical
 				}
 				triggered_desc = {
 					trigger = {
@@ -1849,7 +1999,7 @@ fervor.2002 = {
 							scope:exaltation_type = flag:fervor_2001_stubborn
 						}
 					}
-						desc = fervor.2002.desc.zealous
+					desc = fervor.2002.desc.zealous
 				}
 				triggered_desc = {
 					trigger = {
@@ -1859,57 +2009,59 @@ fervor.2002 = {
 							scope:exaltation_type = flag:fervor_2001_stubborn
 						}
 					}
-						desc = fervor.2002.desc.zealous.pope
+					desc = fervor.2002.desc.zealous.pope
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_paranoid
 					}
-						desc = fervor.2002.desc.paranoid
+					desc = fervor.2002.desc.paranoid
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_trusting
 					}
-						desc = fervor.2002.desc.trusting
+					desc = fervor.2002.desc.trusting
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_compassionate
 					}
-						desc = fervor.2002.desc.compassionate
+					desc = fervor.2002.desc.compassionate
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_callous
 					}
-						desc = fervor.2002.desc.callous
+					desc = fervor.2002.desc.callous
 				}
 				triggered_desc = {
 					trigger = {
 						NOT = { scope:virtuous_theocrat = faith.religious_head }
 						scope:exaltation_type = flag:fervor_2001_sadistic
 					}
-						desc = fervor.2002.desc.sadistic
+					desc = fervor.2002.desc.sadistic
 				}
 				triggered_desc = {
 					trigger = {
 						scope:virtuous_theocrat = faith.religious_head
 						scope:exaltation_type = flag:fervor_2001_sadistic
 					}
-						desc = fervor.2002.desc.sadistic.pope
+					desc = fervor.2002.desc.sadistic.pope
 				}
 				triggered_desc = {
 					trigger = {
 						scope:exaltation_type = flag:fervor_2001_forgiving
 					}
-						desc = fervor.2002.desc.forgiving
+					desc = fervor.2002.desc.forgiving
 				}
 			}
-				desc = fervor.2002.desc.fallback
+			desc = fervor.2002.desc.fallback
 		}
-		}
+	}
+
 	theme = faith
+
 	override_background = {
 		trigger = {
 			scope:exaltation_type = flag:fervor_2001_sadistic
@@ -1962,8 +2114,11 @@ fervor.2002 = {
 			}
 			liege.primary_title = { save_scope_as = scoped_primary_title }
 		}
-		show_as_tooltip = { faith = { change_fervor = 10 } }
+		show_as_tooltip = {
+			faith = { change_fervor = local_var:fervor_change }
 		}
+	}
+
 	option = { #
 		name = {
 			trigger = { has_strong_religious_conviction_trigger = yes }
