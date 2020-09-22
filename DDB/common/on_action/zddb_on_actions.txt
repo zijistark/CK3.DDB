@@ -13,7 +13,7 @@ on_game_start_after_lobby = {
 
 on_game_start_DDB = {
 	effect = {
-		# Move Tostig and his nuclear family to Haraldr Hardrada's court for 1066:
+		# Move Tostig and his wife to Haraldr Hardrada's court for 1066:
 		if = {
 			limit = {
 				character:124 = { # Tostig
@@ -45,8 +45,6 @@ on_game_start_DDB = {
 		# Prevent spurious errors in error.log...
 		# These variables are currently stored but never checked directly:
 		title:k_jerusalem = {
-			#set_variable = { name = ghw_parent_title_DDB value = 0 }
-			#remove_variable = ghw_parent_title_DDB
 			if = {
 				limit = {
 					OR = {

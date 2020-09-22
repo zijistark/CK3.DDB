@@ -1,0 +1,11 @@
+﻿
+NDynasty = {
+	MONTHLY_PRESTIGE_GAIN_PER_MEMBER = 0.01 # Was: 0.02
+
+	# Dynasty members who are vassal of below of someone of the same dynasty have their prestige contribution
+	# multiplied with this. 0 disables their prestige contribution entirely
+	MONTHLY_PRESTIGE_GAIN_MULT_FOR_VASSALS_OF_SAME_DYNASTY = 0.2 # Was: 0
+
+ 	BIRTH_PRESTIGE = { 0 50 100 150 200 250 300 350 400 450 500 } # Was: 2x
+ 	MAX_LONG_REIGN = { 5 8 11 14 17 20 23 26 29 32 35 } # Was: delta=5
+}

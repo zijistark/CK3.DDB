@@ -1,0 +1,5 @@
+﻿
+NCombat = {
+	# How many distance units do unraised regiments travel per day when gathering
+	UNRAISED_LEVY_REGIMENTS_SPEED = 10.0 # Was: 40
+}

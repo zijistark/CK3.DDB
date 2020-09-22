@@ -1,0 +1,4 @@
+﻿NWar = {
+	# War Score in order of succession
+	CAPTURED_HEIR_WAR_SCORE = { 25 15 10 } # Was: { 50 25 10 }
+}
