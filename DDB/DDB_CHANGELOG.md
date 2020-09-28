@@ -2,6 +2,8 @@
 
 ## v0.2.0 [BETA]
 
+- Empires can no longer be auto-created by Confederate Partition Succession
+
 - Sinful Bishop / Virtuous Priest events
   + Both event chains should now fire at approximately equal rate given a faith with approximately equal sinful and virtuous priests
   + Frequency of these events now scales logarithmically with faith size instead of linearly

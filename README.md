@@ -26,11 +26,12 @@ A cumulative changelog for released versions can be found in the [DDB_CHANGELOG]
 
 ### Miscellaneous
 
-- Development bonuses now favor tax over levy output
+- Empires can no longer be auto-created by Confederate Partition
 - Dynasty prestige: less snowballing, but vassal dynastic rulers now make their own contribution to Renown gain as well
+- Bonuses from Development now favor tax over levy output
 - Harder to instantly win wars just by capturing heirs
 - Army rally times are more realistic if the levies are traveling from afar
-- If you want decent levy output from a County, then maintaining high Control is much more important
+- If you want decent levy output from a County, then maintaining high Control is much more important (less snowballing)
 
 ## Compatibility
 

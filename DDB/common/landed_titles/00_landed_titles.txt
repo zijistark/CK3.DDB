@@ -183,6 +183,8 @@ e_golden_horde = {
 	definite_form = yes
 
 	capital = c_karakorum
+
+	can_create_on_partition = { always = no }
 }
 
 e_ilkhanate = {
@@ -191,6 +193,8 @@ e_ilkhanate = {
 	definite_form = yes
 
 	capital = c_tabriz
+
+	can_create_on_partition = { always = no }
 }
 
 e_chagatai = {
@@ -200,6 +204,8 @@ e_chagatai = {
 	definite_form = yes
 
 	capital = c_samarkand
+
+	can_create_on_partition = { always = no }
 }
 
 e_black_horde = {
@@ -209,6 +215,8 @@ e_black_horde = {
 	definite_form = yes
 
 	capital = c_delhi
+
+	can_create_on_partition = { always = no }
 }
 
 e_white_horde = {
@@ -218,6 +226,8 @@ e_white_horde = {
 	definite_form = yes
 
 	capital = c_praha
+
+	can_create_on_partition = { always = no }
 }
 
 e_aarlud_khanate = {
@@ -227,6 +237,8 @@ e_aarlud_khanate = {
 	definite_form = yes
 
 	capital = c_sjaelland
+
+	can_create_on_partition = { always = no }
 }
 
 e_togskol_khanate = {
@@ -236,6 +248,8 @@ e_togskol_khanate = {
 	definite_form = yes
 
 	capital = c_roma
+
+	can_create_on_partition = { always = no }
 }
 
 e_baruun_khanate = {
@@ -245,6 +259,8 @@ e_baruun_khanate = {
 	definite_form = yes
 
 	capital = c_alexandria
+
+	can_create_on_partition = { always = no }
 }
 
 e_uyghur_khanate = {
@@ -254,6 +270,8 @@ e_uyghur_khanate = {
 	definite_form = yes
 	
 	capital = c_karabalgasun
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -272,6 +290,8 @@ e_kirghiz_khanate = {
 	definite_form = yes
 	
 	capital = c_karabalgasun
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -294,6 +314,8 @@ e_mongol_empire = {
 	}
 
 	capital = c_karakorum
+
+	can_create_on_partition = { always = no }
 }
 
 e_kara_khitai = { #aka Western Liao / Great Liao
@@ -301,6 +323,8 @@ e_kara_khitai = { #aka Western Liao / Great Liao
 	color2= { 255 255 255 }
 	
 	capital = c_balashagun
+
+	can_create_on_partition = { always = no }
 }
 
 
@@ -310,6 +334,8 @@ e_timurids = {
 	definite_form = yes
 
 	capital = c_samarkand
+
+	can_create_on_partition = { always = no }
 }
 
 #Jewish Religious Heads
@@ -506,11 +532,12 @@ e_outremer = {
 	color2 = { 255 255 255 }
 
 	capital = c_jerusalem
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		add = @always_primary_score
 	}
-
 }
 
 # HOLY ORDERS
@@ -720,18 +747,24 @@ e_latin_empire = {
 	definite_form = yes
 
 	capital = c_byzantion
+
+	can_create_on_partition = { always = no }
 }
 
 e_slavia = {
 	color = { 255 230 230 }
 	color2 = { 255 255 255 }
 	capital = c_kiev # Kiev
+
+	can_create_on_partition = { always = no }
 }
 
 e_armenia = {
 	color = { 198 29 29 }
 	
 	capital = c_hayk # Ani
+
+	can_create_on_partition = { always = no }
 }
 
 # TITULAR KINGDOMS
@@ -817,9 +850,12 @@ e_hre = {
 	color = { 255 255 255 }
 	color2 = { 0 0 0 }
 
-	capital = c_aachen
 	definite_form = yes
-		
+
+	capital = c_aachen
+
+	can_create_on_partition = { always = no }
+
 	ai_primary_priority = {
 		if = {
 			limit = {
@@ -843,6 +879,8 @@ e_britannia = {
 	color2 = { 255 255 255 }
 	
 	capital = c_middlesex
+
+	can_create_on_partition = { always = no }
 	
 	cultural_names = {
 		pictish = cn_pictavia
@@ -4020,6 +4058,8 @@ e_germany = {
 	color2 = { 220 220 20 }
 
 	capital = c_nassau
+
+	can_create_on_partition = { always = no }
 		
 	ai_primary_priority = {
 		if = {
@@ -8783,18 +8823,22 @@ e_roman_empire = {
 	color = { 167 10 100 }
 	color2 = { 255 255 20 }
 	
-	capital = c_roma # Rome
 	definite_form = yes
-	
+
+	capital = c_roma # Rome
+
+	can_create_on_partition = { always = no }
 }
 
 e_byzantium = {
 	color =  hsv{ 0.9 1 0.3 } #hsv{ 0.73 0.8 0.4 }  #hsv{ 0.77 0.8 0.6 } #{ 143 12 125 }
 	color2 = { 255 255 255 }
 	
-	capital = c_byzantion
-	
 	definite_form = yes
+	
+	capital = c_byzantion
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -16142,6 +16186,8 @@ e_italy = {
 	color2 = { 255 255 255 }
 	
 	capital = c_roma # Rome
+
+	can_create_on_partition = { always = no }
 		
 	ai_primary_priority = {
 		if = {
@@ -17528,6 +17574,8 @@ e_scandinavia = {
 	color2 = { 255 255 0 }
 	
 	capital = c_skane #Lund - Archbishop seat of Scandinavia
+
+	can_create_on_partition = { always = no }
 		
 	ai_primary_priority = {
 		if = {
@@ -21058,6 +21106,8 @@ e_wendish_empire = {
 	color2 = { 200 0 0 }
 	
 	capital = c_krakowska # Krakowska
+
+	can_create_on_partition = { always = no }
 	
 	definite_form = yes
 		
@@ -24602,6 +24652,8 @@ e_russia = {	#Kievan Rus
 	color2 = { 255 255 255 }
 	
 	capital = c_kiev # Kiev
+
+	can_create_on_partition = { always = no }
 		
 	ai_primary_priority = {
 		if = {
@@ -27906,6 +27958,8 @@ e_caspian-pontic_steppe = {
 	color2= { 255 255 255 }
 	
 	capital = c_itil # Itil
+
+	can_create_on_partition = { always = no }
 	
 	k_pontic_steppe = {
 		color = { 85 40 5 }
@@ -28974,14 +29028,13 @@ e_caspian-pontic_steppe = {
 	}
 	
 	k_magyar = {
-	color = { 187 70 70 }
+		color = { 187 70 70 }
 
-	definite_form = yes
+		definite_form = yes
 
-	de_jure_drift_disabled = yes
+		de_jure_drift_disabled = yes
 
-	capital = c_visegrad # Pest
-	
+		capital = c_visegrad # Pest
 	}
 }
 
@@ -28990,6 +29043,8 @@ e_volga-ural = {
 	color2 = { 255 255 255 }
 	
 	capital = c_bolghar
+
+	can_create_on_partition = { always = no }
 	
 	k_volga_bulgaria = {
 		color = { 97 56 55 }
@@ -30777,6 +30832,8 @@ e_siberia = {
 	color2= { 255 255 255 }
 	
 	capital = c_tyumen
+
+	can_create_on_partition = { always = no }
 	
 	k_yugra = {
 		color = { 210 245 210 }
@@ -32235,6 +32292,8 @@ e_mongolia = {
 	color2= {255 255 255 }
 	
 	capital = c_karakorum
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -34675,6 +34734,8 @@ e_tartaria = {
 	color2 = { 255 255 255 }
 	
 	capital = c_turgay
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -37213,6 +37274,8 @@ e_turan = {
 	color2= { 255 255 255 }
 	
 	capital = c_bukhara
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -39591,15 +39654,19 @@ e_bactria = {
 	color = { 51 185 206 }
 
 	#capital = c_balkh
+
+	can_create_on_partition = { always = no }
 }
 
 e_persia = {
 	color = { 133 240 7 }
 	color2 = { 255 255 255 }
 	
-	capital = c_isfahan #	Esfahan
-	
 	definite_form = yes
+	
+	capital = c_isfahan #	Esfahan
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -43894,6 +43961,8 @@ e_carpathia = {
 	color2 = { 255 255 255 }
 	
 	capital = c_visegrad # Pest
+
+	can_create_on_partition = { always = no }
 	
 	k_dacia = {
 		color = { 237 147 52 }
@@ -46429,6 +46498,8 @@ e_france = {
 	color2 = { 255 255 20 }
 	
 	capital = c_ile_de_france
+
+	can_create_on_partition = { always = no }
 		
 	ai_primary_priority = {
 		if = {
@@ -49488,6 +49559,8 @@ e_spain = {
 	color2 = { 255 255 255 }
 	
 	capital = c_toledo # Toledo
+
+	can_create_on_partition = { always = no }
 		
 	ai_primary_priority = {
 		if = {
@@ -51905,6 +51978,8 @@ e_maghreb = {
 	color2 = { 255 255 255 }
 	
 	capital = c_kairwan # Kairouan
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -54429,9 +54504,11 @@ e_arabia = {
 	color = { 32 150 85 }
 	color2 = { 255 255 255 }
 	
-	capital = c_damascus # Damascus
-	
 	definite_form = yes
+	
+	capital = c_damascus # Damascus
+
+	can_create_on_partition = { always = no }
 		
 	ai_primary_priority = {
 		if = {
@@ -57625,6 +57702,8 @@ e_abyssinia = {
 	color2 = { 255 255 255 }
 	
 	capital = c_lasta
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -59938,6 +60017,8 @@ e_ajuraan = {
 	color2 = { 255 255 255 }
 	
 	capital = c_mogadishu
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -60546,6 +60627,8 @@ e_kanem_bornu = {
 	color2 = { 255 255 255 }
 	
 	capital = c_kanem #	Manan
+
+	can_create_on_partition = { always = no }
 
 	k_kanem = {
 		color = { 124 184 124 }
@@ -61894,6 +61977,8 @@ e_mali = {
 	color2 = { 255 255 255 }
 	
 	capital = c_niani #	Niani
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -63933,6 +64018,8 @@ e_guinea = {
 	color2 = { 255 255 255 }
 	
 	capital = c_temne
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -66606,6 +66693,8 @@ e_guinea = {
 
 e_india = {					  # Titular, created by special decision only if entire India is united
 	color = { 255 110 0 }
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		add = @always_primary_score
@@ -66617,6 +66706,8 @@ e_rajastan = {
 	color2 = { 255 255 255 }
 	
 	capital = c_kanyakubja # Kanyakubja
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -69918,9 +70009,11 @@ e_bengal = {
 	color = { 0 120 40 }
 	color2 = { 255 255 20 }
 	
-	capital = c_laksmanavati # Laksmanavati
-	
 	definite_form = yes
+	
+	capital = c_laksmanavati # Laksmanavati
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -72323,9 +72416,11 @@ e_deccan = {
 	color = { 190 20 50 }
 	color2 = { 200 0 0 }
 	
-	capital = c_kalyani
-	
 	definite_form = yes
+	
+	capital = c_kalyani
+
+	can_create_on_partition = { always = no }
 	
 	ai_primary_priority = {
 		if = {
@@ -74270,6 +74365,8 @@ e_tibet = {
 	color2 = { 255 255 255 }
 	
 	capital = c_lhasa
+
+	can_create_on_partition = { always = no }
 	
 	k_u = {
 		color = { 3 144 252 }
