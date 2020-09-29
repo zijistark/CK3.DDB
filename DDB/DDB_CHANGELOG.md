@@ -1,6 +1,8 @@
 # DDB: Changelog
 
-## v0.2.0 [BETA]
+## v0.2.0
+
+- Compatibility patch for CKII v1.1
 
 - Empires can no longer be auto-created by Confederate Partition Succession
 

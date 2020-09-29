@@ -14,6 +14,10 @@
 		}
 	}
 
+	allowed_for_character_display_regardless = {
+		piety_level >= 1
+	}
+
 	allowed_against_character = {
 		scope:attacker = {
 			faith = {
@@ -208,14 +212,24 @@
 	}
 
 	on_victory_desc = {
-		desc = religious_war_victory_desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:attacker.faith = {
+						has_doctrine = doctrine_pluralism_pluralistic
+					}
+				}
+				desc = religious_war_victory_desc_doctrine_pluralism
+			}
+			desc = religious_war_victory_desc
+		}
 	}
 
 	on_victory = {
-		create_title_and_vassal_change = change
-		scope:change = {
-			set_title_and_vassal_change_type = conquest_holy_war
-			set_add_claim_on_loss = yes
+		create_title_and_vassal_change = {
+			type = conquest_holy_war
+			save_scope_as = change
+			add_claim_on_loss = yes
 		}
 
 		# go through the dejure hierarchy under target titles, transfer titles with same or worse tolerance holders (their religion equaly or less tolerated than the defender's),
@@ -335,6 +349,16 @@
 				modifier = contributed_in_war
 			}
 		}
+		scope:attacker = {
+			every_vassal = {
+				limit = { faith = scope:attacker.faith }
+				custom = all_attackers_vassals_same_faith
+				add_opinion = {
+					modifier = liege_lost_declared_religious_war
+					target = scope:attacker
+				}
+			}
+		}
 
 		# Prestige for the defender's war allies
 		add_from_contribution_defenders = {
@@ -370,17 +394,8 @@
 			}
 		}
 
-		scope:attacker = {
-			every_vassal = {
-				limit = {
-					faith = prev.faith
-				}
-				custom = all_my_vassals_same_faith
-				add_opinion = {
-					modifier = liege_lost_declared_religious_war
-					target = prev
-				}
-			}
+		scope:attacker.faith = {
+			change_fervor = -3
 		}
 
 		# Truce
@@ -629,14 +644,24 @@ religious_war = {
 	}
 
 	on_victory_desc = {
-		desc = religious_war_victory_desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:attacker.faith = {
+						has_doctrine = doctrine_pluralism_pluralistic
+					}
+				}
+				desc = religious_war_victory_desc_doctrine_pluralism
+			}
+			desc = religious_war_victory_desc
+		}
 	}
 
 	on_victory = {
-		create_title_and_vassal_change = change
-		scope:change = {
-			set_title_and_vassal_change_type = conquest_holy_war
-			set_add_claim_on_loss = yes
+		create_title_and_vassal_change = {
+			type = conquest_holy_war
+			save_scope_as = change
+			add_claim_on_loss = yes
 		}
 
 		# go through the dejure hierarchy under target titles, transfer titles with same or worse tolerance holders (their religion equaly or less tolerated than the defender's),
@@ -794,15 +819,17 @@ religious_war = {
 
 		scope:attacker = {
 			every_vassal = {
-				limit = {
-					faith = prev.faith
-				}
-				custom = all_my_vassals_same_faith
+				limit = { faith = scope:attacker.faith }
+				custom = all_attackers_vassals_same_faith
 				add_opinion = {
 					modifier = liege_lost_declared_religious_war
-					target = prev
+					target = scope:attacker
 				}
 			}
+		}
+
+		scope:attacker.faith = {
+			change_fervor = -5
 		}
 
 		# Truce
@@ -1056,7 +1083,17 @@ major_religious_war = {
 	}
 
 	on_victory_desc = {
-		desc = religious_war_victory_desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:attacker.faith = {
+						has_doctrine = doctrine_pluralism_pluralistic
+					}
+				}
+				desc = religious_war_victory_desc_doctrine_pluralism
+			}
+			desc = religious_war_victory_desc
+		}
 		triggered_desc = {
 			trigger = { scope:attacker = { is_local_player = yes } }
 			desc = major_religious_war_warning_desc
@@ -1064,12 +1101,11 @@ major_religious_war = {
 	}
 
 	on_victory = {
-		create_title_and_vassal_change = change
-		scope:change = {
-			set_title_and_vassal_change_type = conquest_holy_war
-			set_add_claim_on_loss = yes
+		create_title_and_vassal_change = {
+			type = conquest_holy_war
+			save_scope_as = change
+			add_claim_on_loss = yes
 		}
-
 		# go through the dejure hierarchy under target titles, transfer titles with same or worse tolerance holders (their religion equaly or less tolerated than the defender's),
 		# take the holder as vassal otherwise and don't go deeper
 		every_in_list = {
@@ -1224,15 +1260,17 @@ major_religious_war = {
 
 		scope:attacker = {
 			every_vassal = {
-				limit = {
-					faith = prev.faith
-				}
-				custom = all_my_vassals_same_faith
+				limit = { faith = scope:attacker.faith }
+				custom = all_attackers_vassals_same_faith
 				add_opinion = {
 					modifier = liege_lost_declared_religious_war
-					target = prev
+					target = scope:attacker
 				}
 			}
+		}
+
+		scope:attacker.faith = {
+			change_fervor = -10
 		}
 
 		# Truce
@@ -2706,7 +2744,7 @@ undirected_great_holy_war = {
 		on_declared_war = yes
 		scope:attacker.faith.great_holy_war = {
 			divide_war_chest = {
-				fraction = 0.2
+				fraction = ghw_war_start_handout_percentage
 			}
 		}
 
@@ -2759,10 +2797,10 @@ undirected_great_holy_war = {
 	}
 
 	on_victory = {
-		create_title_and_vassal_change = change
-		scope:change = {
-			set_title_and_vassal_change_type = conquest_holy_war
-			set_add_claim_on_loss = yes
+		create_title_and_vassal_change = {
+			type = conquest_holy_war
+			save_scope_as = change
+			add_claim_on_loss = yes
 		}
 		scope:attacker.faith.great_holy_war.ghw_target_title = { #Loc keys for localization fluff.
 			save_scope_as = target_kingdom
@@ -2908,44 +2946,19 @@ undirected_great_holy_war = {
 			}
 		}
 
-		##If a valid usurpable capital duchy exists, grab that too.
-		#scope:attacker.faith.great_holy_war.ghw_target_title.title_capital_county.duchy = {
-		#	save_temporary_scope_as = target_title_duchy_potential
-		#	if = {
-		#		limit = {
-		#			OR = {
-		#				is_title_created = no
-		#				scope:attacker.faith.great_holy_war = {
-		#					OR = {
-		#						any_pledged_defender = { this = scope:target_title_duchy_potential.holder }
-		#						any_pledged_defender = {
-		#							any_vassal_or_below = { this = scope:target_title_duchy_potential.holder }
-		#						}
-		#					}
-		#				}
-		#			}
-		#		}
-		#		
-		#		change_title_holder = {
-		#			holder = scope:title_recipient
-		#			change = scope:change
-		#		}
-		#	}
-		#}
-
 		# Create a dynamic title if the kingdom itself can't be created/taken
 		if = {
 			limit = { #In the event that, for ex. k_jerusalem exists and is held by a foreign ruler who is not involved in the war in any way.
 				exists = scope:the_ghw
 				exists = scope:target_kingdom
 				exists = scope:target_kingdom.holder
-				scope:target_kingdom.holder = {
-					is_alive = yes
-					scope:the_ghw = {
-						NOR = {
-							has_pledged_attacker = prev
-							has_pledged_defender = prev
-						}
+				scope:the_ghw = {
+					NOR = {
+						#Do not create a titular title if the target is held by a defender.
+						has_pledged_defender = scope:target_kingdom.holder
+						has_forced_defender = scope:target_kingdom.holder
+						#Or, if the title_recipient is the current holder of the target_kingdom.
+						scope:title_recipient = scope:target_kingdom.holder
 					}
 				}
 			}
@@ -2985,10 +2998,18 @@ undirected_great_holy_war = {
 				exists = scope:the_ghw
 			}
 			hidden_effect = {
-				scope:target = {
-					change_title_holder = {
-						holder = scope:title_recipient
-						change = scope:change
+				if = {
+					limit = {
+						NAND = {
+							exists = scope:target.holder
+							scope:target.holder = scope:title_recipient
+						}
+					}
+					scope:target = {
+						change_title_holder = {
+							holder = scope:title_recipient
+							change = scope:change
+						}
 					}
 				}
 			}
@@ -2997,57 +3018,6 @@ undirected_great_holy_war = {
 				divide_war_chest = {}
 			}
 		}
-		
-		# The Crusader King should always get the Capital and Capital Duchy, if it is available
-		create_title_and_vassal_change = change
-		scope:change = {
-			set_title_and_vassal_change_type = revoked
-			set_add_claim_on_loss = no
-		}
-		scope:attacker.faith.great_holy_war.ghw_target_title.title_capital_county = {
-			if = {
-				limit = {
-					OR = {
-						is_title_created = no
-						AND = {
-							exists = holder
-							NOT = {
-								holder = scope:title_recipient
-							}
-							holder.top_liege = scope:title_recipient
-						}
-					}
-				}
-				
-				change_title_holder = {
-					holder = scope:title_recipient
-					change = scope:change
-				}
-			}
-		}
-		scope:attacker.faith.great_holy_war.ghw_target_title.title_capital_county.duchy = {
-			save_temporary_scope_as = target_title_duchy_potential
-			if = {
-				limit = {
-					OR = {
-						is_title_created = no
-						AND = {
-							exists = holder
-							NOT = {
-								holder = scope:title_recipient
-							}
-							holder.top_liege = scope:title_recipient
-						}
-					}
-				}
-				
-				change_title_holder = {
-					holder = scope:title_recipient
-					change = scope:change
-				}
-			}
-		}
-		resolve_title_and_vassal_change = scope:change
 
 		hidden_effect = {
 			every_player = { #Fluff for players
@@ -3517,7 +3487,7 @@ directed_great_holy_war = {
 	}
 
 	on_victory_desc = {
-		desc = great_holy_war_victory_desc
+		desc = great_holy_war_directed_victory_desc
 	}
 
 	on_victory = {
@@ -3549,12 +3519,6 @@ directed_great_holy_war = {
 			}
 		}
 
-		create_title_and_vassal_change = change
-		scope:change = {
-			set_title_and_vassal_change_type = conquest_holy_war
-			set_add_claim_on_loss = yes
-		}
-
 		if = {
 			limit = { exists = scope:attacker.faith.great_holy_war.ghw_title_recipient }
 			scope:attacker.faith.great_holy_war.ghw_title_recipient = {
@@ -3567,17 +3531,15 @@ directed_great_holy_war = {
 			}
 		}
 
-		create_title_and_vassal_change = change
-		scope:change = {
-			set_title_and_vassal_change_type = conquest_holy_war
-			set_add_claim_on_loss = yes
+		create_title_and_vassal_change = {
+			type = conquest_holy_war
+			save_scope_as = change
+			add_claim_on_loss = yes
 		}
-
 		every_in_list = {
 			list = target_titles
 			save_scope_as = target
 		}
-
 		scope:attacker.faith.great_holy_war = {
 			show_as_tooltip = { #Otherwise hand out titles normally.
 				scope:target = {
