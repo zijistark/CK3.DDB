@@ -1,0 +1,5 @@
+﻿
+NFleet = {
+	# After embarking the army can expend this time without getting attrition
+	ATTRITION_AFTER_DAYS = 10 # WAS: 30
+}

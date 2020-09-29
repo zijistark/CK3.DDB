@@ -1,0 +1,7 @@
+﻿
+NVassalContract = {
+	# How much levies are reduced per vassal over the limit [Was: 0.05]
+	ABOVE_LIMIT_LEVY_PENALTY = 0
+	# How much levies can be reduced at most [Was: 0.95]
+	ABOVE_LIMIT_MAX_LEVY_PENALTY = 0
+}

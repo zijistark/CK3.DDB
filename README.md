@@ -10,7 +10,12 @@ A cumulative changelog for released versions can be found in the [DDB_CHANGELOG]
 
 ## Features
 
-### Better AI conversion to local / nearby cultures & faiths
+### Faith & culture
+
+- Faiths' monthly Fervor gain is penalized less for being large
+- Sinful Bishop / Virtuous Priest events are more balanced and relevant
+
+#### AI conversion to local / nearby cultures & faiths
 
 - Mechanic to track successful Crusades/Jihads/GHWs in order to allow robust testing of whether a given character is part of an intact Crusader state
   - Used in a few key places to block assimilation of local/nearby cultures and/or faiths
@@ -18,6 +23,15 @@ A cumulative changelog for released versions can be found in the [DDB_CHANGELOG]
 - Given reason, less likely to convert to their capital's foreign culture
 - While losing a defensive war, less likely to convert to the attacker's faith
 - Now less likely to take the conversion option of Populist Faction ultimatums if they have similar military power
+
+### Miscellaneous
+
+- Empires can no longer be auto-created by Confederate Partition
+- Dynasty prestige: less snowballing, but vassal dynastic rulers now make their own contribution to Renown gain as well
+- Bonuses from Development now favor tax over levy output
+- Harder to instantly win wars just by capturing heirs
+- Army rally times are more realistic if the levies are traveling from afar
+- If you want decent levy output from a County, then maintaining high Control is much more important (less snowballing)
 
 ## Compatibility
 

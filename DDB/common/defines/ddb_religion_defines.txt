@@ -1,0 +1,9 @@
+﻿NReligion = {
+	HEAD_OF_FAITH_PIETY_GAIN = 1.5 # Monthly piety gain for heads of faith / Was: 1.0
+
+	# Adjusts the size modifier for monthly fervor gain for a faith according to the following formula:
+	# 1/squareroot(max(define_value, faith_size)/define_value) where define value is the value of
+	# MINIMUM_FAITH_SIZE_FERVOR_MODIFIER and faith_size is the current amount of provinces that follows the
+	# faith.
+	MINIMUM_FAITH_SIZE_FERVOR_MODIFIER = 30 # Was: 10
+}

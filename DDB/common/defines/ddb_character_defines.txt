@@ -1,0 +1,4 @@
+﻿
+NCharacter = {
+	PRESTIGE_FROM_DYNASTY_ON_BORN_FACTOR = 0.1 # Was: 0.2
+}

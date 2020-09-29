@@ -13,11 +13,38 @@ on_game_start_after_lobby = {
 
 on_game_start_DDB = {
 	effect = {
+		# Move Tostig and his wife to Haraldr Hardrada's court for 1066:
+		if = {
+			limit = {
+				character:124 = { # Tostig
+					is_alive = yes
+					is_ruler = no
+				}
+				character:102531 = { # Hardrada
+					is_alive = yes
+					has_title = title:k_norway
+				}
+			}
+			title:k_norway.holder = { save_temporary_scope_as = hardrada }
+			character:124 = { # Tostig
+				if = {
+					limit = { NOT = { is_courtier_of = scope:hardrada } }
+					scope:hardrada = { add_courtier = prev }
+				}
+				every_spouse = {
+					limit = {
+						is_alive = yes
+						is_ruler = no
+						NOT = { is_courtier_of = scope:hardrada }
+					}
+					scope:hardrada = { add_courtier = prev }
+				}
+			}
+		}
+
 		# Prevent spurious errors in error.log...
 		# These variables are currently stored but never checked directly:
 		title:k_jerusalem = {
-			#set_variable = { name = ghw_parent_title_DDB value = 0 }
-			#remove_variable = ghw_parent_title_DDB
 			if = {
 				limit = {
 					OR = {
