@@ -1,0 +1,73 @@
+﻿doctrine_gender = {
+	group = "main_group"
+
+	doctrine_gender_male_dominated = {
+		is_shown = {
+			NOT = { has_game_rule = full_gender_equality }
+		}
+		piety_cost = {
+			value = faith_doctrine_cost_high
+			if = {
+				limit = { has_doctrine = doctrine_gender_male_dominated }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_gender_female_dominated }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		parameters = {
+			male_dominated_law = yes
+			female_claims_are_weak = yes
+			# women_cannot_inherit_claims = yes	# Bad addition in Patch 1.1
+			women_cannot_be_granted_titles = yes
+			combatant_must_be_male = yes
+			male_dominated_council = yes
+		}
+		character_modifier = {
+			name = female_ruler_male_dominant
+			opinion_of_female_rulers = -10
+		}
+	}
+	doctrine_gender_equal = {
+		piety_cost = {
+			value = faith_doctrine_cost_high
+			if = {
+				limit = { has_doctrine = doctrine_gender_equal }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		parameters = {
+			gender_equal_law = yes
+			combatant_can_be_either_gender = yes
+		}
+	}
+	doctrine_gender_female_dominated = {
+		is_shown = {
+			NOT = { has_game_rule = full_gender_equality }
+		}
+		piety_cost = {
+			value = faith_doctrine_cost_high
+			if = {
+				limit = { has_doctrine = doctrine_gender_female_dominated }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_gender_male_dominated }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		parameters = {
+			female_dominated_law = yes
+			male_claims_are_weak = yes
+			# men_cannot_inherit_claims = yes # Bad addition in Patch 1.1
+			men_cannot_be_granted_titles = yes
+			combatant_must_be_female = yes
+			female_dominated_council = yes
+		}
+		character_modifier = {
+			name = male_ruler_female_dominant
+			opinion_of_male_rulers = -10
+		}
+	}
+}
