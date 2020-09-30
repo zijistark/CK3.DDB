@@ -72,58 +72,6 @@ can_press_claim_on_title_considering_gender_DDB = {
 	has_claim_on = $TITLE$
 	trigger_if = {
 		limit = {
-			$TITLE$ = {
-				NOR = {
-					has_title_law = male_only_law
-					has_title_law = male_preference_law
-					has_title_law = equal_law
-					has_title_law = female_preference_law
-					has_title_law = female_only_law
-				}
-			}
-		}
-		trigger_if = {
-			limit = {
-				$TITLE$.holder = { has_realm_law = male_only_law }
-			}
-			is_male = yes
-		}
-		trigger_else_if = {
-			limit = {
-				$TITLE$.holder = { has_realm_law = male_preference_law }
-			}
-			OR = {
-				is_male = yes
-				any_claim = {
-					explicit = yes
-					this = $TITLE$
-				}
-			}
-		}
-		trigger_else_if = {
-			limit = {
-				$TITLE$.holder = { has_realm_law = female_preference_law }
-			}
-			OR = {
-				is_female = yes
-				any_claim = {
-					explicit = yes
-					this = $TITLE$
-				}
-			}
-		}
-		trigger_else_if = {
-			limit = {
-				$TITLE$.holder = { has_realm_law = female_only_law }
-			}
-			is_female = yes
-		}
-		trigger_else = {
-			always = yes
-		}
-	}
-	trigger_else_if = {
-		limit = {
 			$TITLE$ = { has_title_law = male_only_law }
 		}
 		is_male = yes
@@ -142,6 +90,12 @@ can_press_claim_on_title_considering_gender_DDB = {
 	}
 	trigger_else_if = {
 		limit = {
+			$TITLE$ = { has_title_law = equal_law }
+		}
+		always = yes
+	}
+	trigger_else_if = {
+		limit = {
 			$TITLE$ = { has_title_law = female_preference_law }
 		}
 		OR = {
@@ -155,6 +109,43 @@ can_press_claim_on_title_considering_gender_DDB = {
 	trigger_else_if = {
 		limit = {
 			$TITLE$ = { has_title_law = female_only_law }
+		}
+		is_female = yes
+	}
+	# Exhausted title gender law checks, fallback to same logic for realm gender laws
+	trigger_else_if = {
+		limit = {
+			$TITLE$.holder = { has_realm_law = male_only_law }
+		}
+		is_male = yes
+	}
+	trigger_else_if = {
+		limit = {
+			$TITLE$.holder = { has_realm_law = male_preference_law }
+		}
+		OR = {
+			is_male = yes
+			any_claim = {
+				explicit = yes
+				this = $TITLE$
+			}
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			$TITLE$.holder = { has_realm_law = female_preference_law }
+		}
+		OR = {
+			is_female = yes
+			any_claim = {
+				explicit = yes
+				this = $TITLE$
+			}
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			$TITLE$.holder = { has_realm_law = female_only_law }
 		}
 		is_female = yes
 	}
