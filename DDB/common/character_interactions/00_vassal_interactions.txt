@@ -857,7 +857,9 @@ create_claimant_faction_against_interaction = {
 				custom_description = {
 					text = "basic_capable_claimant_found"
 					any_held_title = {
+						save_temporary_scope_as = claim_title
 						any_claimant = {
+							can_press_claim_on_title_considering_gender_DDB = { TITLE = scope:claim_title }
 							NOT = { has_trait = incapable }
 						}
 					}
@@ -890,6 +892,14 @@ create_claimant_faction_against_interaction = {
 			}
 		}
 		scope:secondary_actor = { NOT = { has_strong_hook = scope:actor } }
+	}
+
+	can_send = {
+		exists = scope:recipient
+		exists = scope:landed_title
+		scope:recipient = {
+			can_press_claim_on_title_considering_gender_DDB = { TITLE = scope:landed_title }
+		}
 	}
 
 	on_send = {
