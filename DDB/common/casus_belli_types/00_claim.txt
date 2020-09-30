@@ -35,6 +35,9 @@
 	# scope:attacker is the attacker
 	# scope:defender is the defender
 	is_allowed_claim_title = {
+		scope:claimant = {
+			can_press_claim_on_title_considering_gender_DDB = { TITLE = root }
+		}
 		custom_description = {
 			text = "claimant_titles_held_by_you_or_vassal"
 			NOR = {

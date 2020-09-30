@@ -1,5 +1,22 @@
 # DDB: Changelog
 
+
+## v0.2.1 [BETA]
+
+- Fixed CK3 v1.1.1's issue with females not inheriting claims when their parents die (and possibly a similar problem for males under Female-Dominated religions)
+  + Due to the nature of the fix, note that females will now receive implicit claims under laws where they otherwise wouldn't
+    * However, these extraneous implicit claims have no effect due to the next changelog item
+
+- Enforced gender law requirements rigorously for the purpose of qualifying claim wars and the claimant faction
+  + The lack of this logic was a big problem pre-1.1.1, but now it's even more important to stop usage of extraneous implicit claims
+  + The claimed title's gender succession law, if it exists, trumps its realm gender succession law, and whenever the relevant law is:
+    - Male Only: Only males qualify as claimants, period.
+    - Male Preference: Males always qualify, but females require an _explicit_ claim
+    - Equal: Both males and females qualify.
+    - Female Preference: Females always qualify, but males require an _explicit_ claim
+    - Female Only: Only females qualify as claimants, period.
+
+
 ## v0.2.0
 
 - Compatibility patch for CKIII v1.1
