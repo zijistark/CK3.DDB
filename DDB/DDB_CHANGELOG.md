@@ -1,7 +1,10 @@
 # DDB: Changelog
 
+## v0.2.2 [BETA]
 
-## v0.2.1 [BETA]
+- Removed female claims inheritance stopgap measure (but kept gender law enforcement restrictions), as Paradox fixed this issue
+
+## v0.2.1
 
 - Fixed CK3 v1.1.1's issue with females not inheriting claims when their parents die (and possibly a similar problem for males under Female-Dominated religions)
   + Due to the nature of the fix, note that females will now receive implicit claims under laws where they otherwise wouldn't
